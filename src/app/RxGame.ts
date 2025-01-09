@@ -3,16 +3,14 @@ import { scan, startWith, map } from 'rxjs/operators';
 
 type Target = 0 | 5 | 10 | 20 | null;
 type HandsToShow = 0 | 1 | 2 | null;
+type Result = {
+  showingHands: HandsToShow;
+  target: Target;
+};
 
 type GameState = {
-  player: {
-    showingHands: HandsToShow;
-    target: Target;
-  };
-  cpu: {
-    showingHands: HandsToShow;
-    target: Target;
-  };
+  player: Result;
+  cpu: Result;
   score: number;
   timer: number | null;
 };
@@ -31,9 +29,9 @@ const initialState: GameState = {
 };
 
 export const RxShiWuGame = ({
-  numberService,
+  simulateResult,
 }: {
-  numberService: () => number;
+  simulateResult: () => Result;
 }) => {
   const actions = {
     ['PICK_TARGET']: new Subject<Target>(),
@@ -43,7 +41,18 @@ export const RxShiWuGame = ({
 
   const actions$ = Object.entries(actions).map(([key, subject]) =>
     (subject as Subject<Target | HandsToShow | undefined>).pipe(
-      map((payload) => ({ type: key, payload }))
+      map((payload) => {
+        if (key === 'SHOW_HANDS') {
+          return {
+            type: key,
+            payload: {
+              player: payload as HandsToShow,
+              cpu: simulateResult(),
+            },
+          };
+        }
+        return { type: key, payload };
+      })
     )
   );
 
@@ -59,12 +68,17 @@ export const RxShiWuGame = ({
             },
           };
         case 'SHOW_HANDS':
+          const { player: playerHands, cpu } = payload as {
+            player: HandsToShow;
+            cpu: Result;
+          };
           return {
             ...state,
             player: {
               ...state.player,
-              showingHands: payload as HandsToShow,
+              showingHands: playerHands,
             },
+            cpu,
           };
         case 'RESET_GAME':
           return initialState;
