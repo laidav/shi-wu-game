@@ -1,59 +1,29 @@
-# ShiWuGame
+ # SHI WU CHINESE DRINKING GAME (0-5-10-15-20):
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.7.
+ This is a traditional Chinese Drinking game where the loser has to drink!
 
-## Development server
+ But I think we can skip the drinking and just keep score to be safe.
 
-To start a local development server, run:
+ ## RULES & HOW TO PLAY:
+ The outcome of each round can be 0, 5, 10, 15 or 20.
 
-```bash
-ng serve
-```
+ Each of the two players at the same time decides either to keep their hands closed,
+ or open 1 hand or two.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+ The sum of all the figures opened up is the outcome.
 
-## Code scaffolding
+ Each player tries to guess the outcome before the hand opens.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+ If one player is able to guess correctly (exclusively) they win the round - otherwise it's a tie.
 
-```bash
-ng generate component component-name
-```
+ Here is an example of how it would be played in real life: https://www.youtube.com/shorts/JqGABVdmS6g
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+ In this game you will play against the CPU.
 
-```bash
-ng generate --help
-```
+ STEP 1: Pick a target of what you guess the outcome to be.
+ STEP 2: You then have 3 seconds to decide how many hands to show
+ STEP 3: The result for the round will be shown
 
-## Building
+ REPEAT Steps 1-3 until you or the CPU gets too drunk on all the fun.
 
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+ GOOD LUCK!
