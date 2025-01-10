@@ -1,6 +1,5 @@
-import { Component, OnInit, Signal, computed } from '@angular/core';
+import { Component, Signal, computed } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { RouterOutlet } from '@angular/router';
 import {
   GameState,
   GameActions,
@@ -17,15 +16,21 @@ const simulateResult = () => ({
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
 export class AppComponent {
   private state!: Signal<GameState>;
-
   actions!: GameActions;
-  ngOnInit() {
+
+  TARGETS = TARGETS;
+  HANDS_TO_SHOW = HANDS_TO_SHOW;
+
+  playerTarget = computed(() => this.state().player.target);
+  playerShowingHands = computed(() => this.state().player.showingHands);
+  countdown = computed(() => this.state().countdown);
+
+  constructor() {
     const { state$, actions } = RxShiWuGame({ simulateResult });
     this.state = toSignal(state$, { initialValue: initialState });
     this.actions = actions;

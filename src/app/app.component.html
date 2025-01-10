@@ -1,1 +1,25 @@
-<div class="shi-wu-game"></div>
+<div class="shi-wu-game">
+  @if (countdown() !== null) {
+  <div class="countdown">Countdown: {{ countdown() }}</div>
+  }
+  <div class="score"></div>
+  <div class="player-area">
+    <div class="hands"></div>
+  </div>
+  <div class="player-area">
+    <div class="hands"></div>
+    <div class="controls">
+      @if(countdown() === 0) { TRY AGAIN! } @if (playerTarget() === null ||
+      playerShowingHands() || countdown() === 0) {
+      <div class="target-picker">
+        PICK A TARGET @for (target of TARGETS; track target) {
+        <button (click)="actions.PICK_TARGET.next(target)">{{ target }}</button>
+
+        }
+      </div>
+      } @else { SHOW HANDS @for (hand of HANDS_TO_SHOW; track hand) {
+      <button (click)="actions.SHOW_HANDS.next(hand)">{{ hand }}</button>
+      } }
+    </div>
+  </div>
+</div>
