@@ -29,6 +29,13 @@ export class AppComponent {
   TARGETS = TARGETS;
   HANDS_TO_SHOW = HANDS_TO_SHOW;
 
+  promptTargetPicking = computed(
+    () =>
+      this.playerTarget() === null ||
+      this.playerShowingHands() !== null ||
+      this.countdown() === 0
+  );
+
   playerTarget = computed(() => this.state().player.target);
   playerShowingHands = computed(() => this.state().cpu.showingHands);
   playerLeftHandOpen = computed(() => (this.playerShowingHands() || 0) > 0);

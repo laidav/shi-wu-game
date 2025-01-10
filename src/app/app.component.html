@@ -30,8 +30,7 @@
     </div>
     }
     <div class="controls">
-      @if(countdown() === 0) { TRY AGAIN! } @if (playerTarget() === null ||
-      playerShowingHands() !== null || countdown() === 0) {
+      @if(countdown() === 0) { TRY AGAIN! } @if (promptTargetPicking()) {
       <div class="target-picker">
         PICK A TARGET @for (target of TARGETS; track target) {
         <button (click)="actions.PICK_TARGET.next(target)">{{ target }}</button>
