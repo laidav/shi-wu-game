@@ -10,10 +10,10 @@
     @if(cpuShowingHands() !== null) {
     <div class="hands">
       <div class="left-hand">
-        @if((cpuShowingHands() || 0) > 0) { &#9995; } @else { &#9994; }
+        @if(cpuLeftHandOpen()) { &#9995; } @else { &#9994; }
       </div>
       <div class="right-hand">
-        @if(cpuShowingHands() === 2) { &#9995; } @else { &#9994; }
+        @if(cpuRightHandOpen()) { &#9995; } @else { &#9994; }
       </div>
     </div>
     }
@@ -22,16 +22,16 @@
     @if(playerShowingHands() !== null) {
     <div class="hands">
       <div class="left-hand">
-        @if((playerShowingHands() || 0) > 0) { &#9995; } @else { &#9994; }
+        @if(playerLeftHandOpen()) { &#9995; } @else { &#9994; }
       </div>
       <div class="right-hand">
-        @if(playerShowingHands() === 2) { &#9995; } @else { &#9994; }
+        @if(playerRightHandOpen()) { &#9995; } @else { &#9994; }
       </div>
     </div>
     }
     <div class="controls">
       @if(countdown() === 0) { TRY AGAIN! } @if (playerTarget() === null ||
-      playerShowingHands() || countdown() === 0) {
+      playerShowingHands() !== null || countdown() === 0) {
       <div class="target-picker">
         PICK A TARGET @for (target of TARGETS; track target) {
         <button (click)="actions.PICK_TARGET.next(target)">{{ target }}</button>

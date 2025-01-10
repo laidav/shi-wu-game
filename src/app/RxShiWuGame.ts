@@ -45,11 +45,19 @@ export const initialState: GameState = {
   countdown: null,
 };
 
+export const getSum = (playerHands: HandsToShow, cpuHands: HandsToShow) => {
+  const result = ((playerHands as number) * 5 +
+    (cpuHands as number) * 5) as Target;
+
+  return result;
+};
+
 export const getWinner = (
   result: Target,
   playerTarget: Target,
   cpuTarget: Target
 ) => {
+  console.log(result, playerTarget, cpuTarget);
   return cpuTarget === playerTarget ||
     (cpuTarget !== result && playerTarget !== result)
     ? null
@@ -115,6 +123,11 @@ export const RxShiWuGame = ({
               showingHands: null,
               target: payload as Target,
             },
+            cpu: {
+              ...state.cpu,
+              showingHands: null,
+              target: null,
+            },
             countdown: COUNT_DOWN_SECONDS,
           };
         case 'SHOW_HANDS':
@@ -123,9 +136,7 @@ export const RxShiWuGame = ({
             cpu: Result;
           };
 
-          const result = ((playerHands as number) +
-            (cpu.showingHands as number)) as Target;
-
+          const result = getSum(playerHands, cpu.showingHands);
           const winner = getWinner(result, state.player.target, cpu.target);
 
           return {
