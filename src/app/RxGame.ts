@@ -93,6 +93,7 @@ export const RxShiWuGame = ({
               showingHands: null,
               target: payload as Target,
             },
+            countdown: COUNT_DOWN_SECONDS,
           };
         case 'SHOW_HANDS':
           const { player: playerHands, cpu } = payload as {
