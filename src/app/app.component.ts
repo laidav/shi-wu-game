@@ -1,4 +1,5 @@
 import { Component, Signal, computed } from '@angular/core';
+import { NgClass } from '@angular/common';
 import { toSignal } from '@angular/core/rxjs-interop';
 import {
   GameState,
@@ -8,7 +9,6 @@ import {
   TARGETS,
   initialState,
   getWinner,
-  Target,
   getSum,
 } from './RxShiWuGame';
 
@@ -21,6 +21,7 @@ const simulateResult = () => ({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
+  imports: [NgClass],
 })
 export class AppComponent {
   private state: Signal<GameState>;
