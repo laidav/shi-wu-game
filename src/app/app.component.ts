@@ -1,6 +1,9 @@
 /**
  * SHI WU CHINESE DRINKING GAME (0-5-10-15-20):
  *
+ * Github: https://github.com/laidav/shi-wu-game
+ * Stackblitz: https://stackblitz.com/edit/github-1aqcmsnf?file=src%2Fapp%2Fapp.component.ts
+ *
  * This is a traditional Chinese Drinking game where the loser has to drink!
  *
  * But I think we can skip the drinking and just keep score to be safe.
@@ -49,7 +52,7 @@ const simulateResult = () => ({
 });
 
 @Component({
-  selector: 'app-root',
+  selector: 'app-something-interesting',
   template: `
     <div class="shi-wu-game">
       <h1>SHI WU DRINKING GAME (0-5-15-20)</h1>
