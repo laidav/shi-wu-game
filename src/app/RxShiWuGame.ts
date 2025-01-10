@@ -46,6 +46,8 @@ export const initialState: GameState = {
 };
 
 export const getSum = (playerHands: HandsToShow, cpuHands: HandsToShow) => {
+  if (playerHands === null || cpuHands === null) return null;
+
   const result = ((playerHands as number) * 5 +
     (cpuHands as number) * 5) as Target;
 
@@ -57,7 +59,6 @@ export const getWinner = (
   playerTarget: Target,
   cpuTarget: Target
 ) => {
-  console.log(result, playerTarget, cpuTarget);
   return cpuTarget === playerTarget ||
     (cpuTarget !== result && playerTarget !== result)
     ? null

@@ -1,12 +1,11 @@
 <div class="shi-wu-game">
+  <h1>SHI WU DRINKING GAME (0-5-15-20)</h1>
   @if (countdown() !== null) {
   <div class="countdown">Countdown: {{ countdown() }}</div>
-  } @if(playerShowingHands() !== null) {
-  <div class="winner">{{ winner() }}</div>
-
   }
-  <div class="score"></div>
+  <div class="score">Score: {{ cpuScore() }}</div>
   <div class="player-area">
+    <h2>CPU</h2>
     @if(cpuShowingHands() !== null) {
     <div class="hands">
       <div class="left-hand">
@@ -15,10 +14,16 @@
       <div class="right-hand">
         @if(cpuRightHandOpen()) { &#9995; } @else { &#9994; }
       </div>
+      <div class="target">CPU Target: {{ cpuTarget() }}</div>
     </div>
+    } @else if (promptChooseHands()) {
+    <div class="left-hand">&#9994;</div>
+    <div class="right-hand">&#9994;</div>
     }
   </div>
   <div class="player-area">
+    <h2>Player</h2>
+    <div class="score">Score: {{ playerScore() }}</div>
     @if(playerShowingHands() !== null) {
     <div class="hands">
       <div class="left-hand">
@@ -27,7 +32,11 @@
       <div class="right-hand">
         @if(playerRightHandOpen()) { &#9995; } @else { &#9994; }
       </div>
+      <div class="target">Target: {{ playerTarget() }}</div>
     </div>
+    } @else if (promptChooseHands()) {
+    <div class="left-hand">&#9994;</div>
+    <div class="right-hand">&#9994;</div>
     }
     <div class="controls">
       @if(countdown() === 0) { TRY AGAIN! } @if (promptTargetPicking()) {
@@ -42,4 +51,11 @@
       } }
     </div>
   </div>
+  @if (result() !== null) {
+  <div class="result">Result: {{ result() }}</div>
+  <div class="winner">
+    @if(winner()) { WINNER: {{ winner() }}
+    } @else { TIE }
+  </div>
+  }
 </div>

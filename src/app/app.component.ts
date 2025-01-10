@@ -23,8 +23,14 @@ const simulateResult = () => ({
   styleUrl: './app.component.css',
 })
 export class AppComponent {
-  private state!: Signal<GameState>;
-  actions!: GameActions;
+  private state: Signal<GameState>;
+  actions: GameActions;
+
+  constructor() {
+    const { state$, actions } = RxShiWuGame({ simulateResult });
+    this.state = toSignal(state$, { initialValue: initialState });
+    this.actions = actions;
+  }
 
   TARGETS = TARGETS;
   HANDS_TO_SHOW = HANDS_TO_SHOW;
@@ -36,27 +42,28 @@ export class AppComponent {
       this.countdown() === 0
   );
 
+  promptChooseHands = computed(() => !this.promptTargetPicking());
+
   playerTarget = computed(() => this.state().player.target);
-  playerShowingHands = computed(() => this.state().cpu.showingHands);
+  playerShowingHands = computed(() => this.state().player.showingHands);
   playerLeftHandOpen = computed(() => (this.playerShowingHands() || 0) > 0);
   playerRightHandOpen = computed(() => this.playerShowingHands() === 2);
+  playerScore = computed(() => this.state().player.score);
 
-  cpuTarget = computed(() => this.state().player.target);
+  cpuTarget = computed(() => this.state().cpu.target);
   cpuShowingHands = computed(() => this.state().cpu.showingHands);
   cpuLeftHandOpen = computed(() => (this.cpuShowingHands() || 0) > 0);
   cpuRightHandOpen = computed(() => this.cpuShowingHands() === 2);
+  cpuScore = computed(() => this.state().cpu.score);
 
   countdown = computed(() => this.state().countdown);
+  result = computed(() =>
+    getSum(this.playerShowingHands(), this.cpuShowingHands())
+  );
   winner = computed(() => {
     const { cpu, player } = this.state();
 
     const result = getSum(player.showingHands, cpu.showingHands);
     return getWinner(result, player.target, cpu.target);
   });
-
-  constructor() {
-    const { state$, actions } = RxShiWuGame({ simulateResult });
-    this.state = toSignal(state$, { initialValue: initialState });
-    this.actions = actions;
-  }
 }
