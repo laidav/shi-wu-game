@@ -7,6 +7,8 @@ import {
   HANDS_TO_SHOW,
   TARGETS,
   initialState,
+  getWinner,
+  Target,
 } from './RxShiWuGame';
 
 const simulateResult = () => ({
@@ -27,8 +29,17 @@ export class AppComponent {
   HANDS_TO_SHOW = HANDS_TO_SHOW;
 
   playerTarget = computed(() => this.state().player.target);
-  playerShowingHands = computed(() => this.state().player.showingHands);
+  playerShowingHands = computed(() => this.state().cpu.showingHands);
+  cpuTarget = computed(() => this.state().player.target);
+  cpuShowingHands = computed(() => this.state().cpu.showingHands);
   countdown = computed(() => this.state().countdown);
+  winner = computed(() => {
+    const { cpu, player } = this.state();
+
+    const result = ((player.showingHands as number) +
+      (cpu.showingHands as number)) as Target;
+    return getWinner(result, player.target, cpu.target);
+  });
 
   constructor() {
     const { state$, actions } = RxShiWuGame({ simulateResult });

@@ -8,7 +8,7 @@ import {
   takeWhile,
 } from 'rxjs/operators';
 
-type Target = 0 | 5 | 10 | 15 | 20 | null;
+export type Target = 0 | 5 | 10 | 15 | 20 | null;
 export const TARGETS: Target[] = [0, 5, 10, 15, 20];
 
 type HandsToShow = 0 | 1 | 2 | null;
@@ -43,6 +43,19 @@ export const initialState: GameState = {
     score: 0,
   },
   countdown: null,
+};
+
+export const getWinner = (
+  result: Target,
+  playerTarget: Target,
+  cpuTarget: Target
+) => {
+  return cpuTarget === playerTarget ||
+    (cpuTarget !== result && playerTarget !== result)
+    ? null
+    : playerTarget === result
+    ? 'PLAYER'
+    : 'CPU';
 };
 
 export const RxShiWuGame = ({
@@ -110,16 +123,10 @@ export const RxShiWuGame = ({
             cpu: Result;
           };
 
-          const totalSum =
-            (playerHands as number) + (cpu.showingHands as number);
+          const result = ((playerHands as number) +
+            (cpu.showingHands as number)) as Target;
 
-          const winner =
-            cpu.target === state.player.target ||
-            (cpu.target !== totalSum && state.player.target !== totalSum)
-              ? null
-              : state.player.target === totalSum
-              ? 'player'
-              : 'cpu';
+          const winner = getWinner(result, state.player.target, cpu.target);
 
           return {
             ...state,
@@ -127,13 +134,13 @@ export const RxShiWuGame = ({
               ...state.player,
               showingHands: playerHands,
               score:
-                winner === 'player'
+                winner === 'PLAYER'
                   ? state.player.score + 1
                   : state.player.score,
             },
             cpu: {
               ...cpu,
-              score: winner === 'cpu' ? state.cpu.score + 1 : state.cpu.score,
+              score: winner === 'CPU' ? state.cpu.score + 1 : state.cpu.score,
             },
             countdown: null,
           };
