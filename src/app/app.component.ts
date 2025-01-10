@@ -33,7 +33,7 @@
 import { Component, Signal, computed } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { Subject, merge, interval, tap } from 'rxjs';
+import { Subject, merge, interval, tap, Observable } from 'rxjs';
 import {
   scan,
   startWith,
@@ -217,14 +217,17 @@ export class AppComponent {
   actions: GameActions;
 
   constructor() {
+    // Binding the State Observable and actions to the component
     const { state$, actions } = RxShiWuGame({ simulateResult });
     this.state = toSignal(state$, { initialValue: initialState });
     this.actions = actions;
   }
 
+  // Constants
   TARGETS = TARGETS;
   HANDS_TO_SHOW = HANDS_TO_SHOW;
 
+  // Computed Values for the View
   promptTargetPicking = computed(
     () =>
       this.playerTarget() === null ||
@@ -297,19 +300,26 @@ export const initialState: GameState = {
   countdown: null,
 };
 
-// STATE MANAGEMENT
+/**
+ * STATE MANAGEMENT
+ * Returns an object containing a state$ observable that emits state changes
+ * and an actions object containing Subjects to be called to invoke state changes
+ */
 export const RxShiWuGame = ({
   simulateResult,
 }: {
   simulateResult: () => Result;
-}) => {
+}): {
+  state$: Observable<GameState>;
+  actions: GameActions;
+} => {
   const actions = {
     ['PICK_TARGET']: new Subject<Target>(),
     ['SHOW_HANDS']: new Subject<HandsToShow>(),
     ['RESET_GAME']: new Subject<void>(),
   };
 
-  // Mapping all the Subject Events to an action to be received by reducers later
+  // Mapping all the Subject Events to an action to be received by reducers for state updates
   const actions$ = Object.entries(actions).map(([key, subject]) =>
     (subject as Subject<Target | HandsToShow | undefined>).pipe(
       map((payload) => {
