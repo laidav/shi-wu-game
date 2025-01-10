@@ -125,6 +125,7 @@ export const RxShiWuGame = ({
               ...cpu,
               score: winner === 'cpu' ? state.cpu.score + 1 : state.cpu.score,
             },
+            countdown: null,
           };
         case 'COUNTDOWN_TICK':
           return {
