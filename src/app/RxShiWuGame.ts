@@ -1,4 +1,4 @@
-import { Subject, merge, interval } from 'rxjs';
+import { Subject, merge, interval, tap } from 'rxjs';
 import {
   scan,
   startWith,
@@ -8,21 +8,30 @@ import {
   takeWhile,
 } from 'rxjs/operators';
 
-type Target = 0 | 5 | 10 | 20 | null;
+type Target = 0 | 5 | 10 | 15 | 20 | null;
+export const TARGETS: Target[] = [0, 5, 10, 15, 20];
+
 type HandsToShow = 0 | 1 | 2 | null;
-type Result = {
+export const HANDS_TO_SHOW: HandsToShow[] = [0, 1, 2];
+
+export type Result = {
   showingHands: HandsToShow;
   target: Target;
-  score: number;
 };
 
-type GameState = {
-  player: Result;
-  cpu: Result;
+export type GameState = {
+  player: Result & { score: number };
+  cpu: Result & { score: number };
   countdown: number | null;
 };
 
-const initialState: GameState = {
+export type GameActions = {
+  ['PICK_TARGET']: Subject<Target>;
+  ['SHOW_HANDS']: Subject<HandsToShow>;
+  ['RESET_GAME']: Subject<undefined>;
+};
+
+export const initialState: GameState = {
   player: {
     showingHands: null,
     target: null,
@@ -138,7 +147,10 @@ export const RxShiWuGame = ({
       }
       return state;
     }, initialState),
-    startWith(initialState)
+    startWith(initialState),
+    tap((state) => {
+      console.log(state);
+    })
   );
 
   return { state$, actions };
